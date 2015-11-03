@@ -35,6 +35,7 @@ public class ToDoList extends AppCompatActivity {
     public static final String NOTE_KEY="note";
     ArrayList<Post> toDoNotes = new ArrayList<>();
     ListView listView;
+    public static PostAdapter adapter = null;
 
 
     @Override
@@ -183,68 +184,71 @@ public class ToDoList extends AppCompatActivity {
     public void displayNotes(ArrayList<Post> s){
         Log.d("as", s.toString());
 
-        PostAdapter adapter = new PostAdapter(ToDoList.this, R.layout.message_layout,s, username);
+        adapter = new PostAdapter(ToDoList.this, R.layout.message_layout,s, username);
         listView.setAdapter(adapter);
+//        adapter.notifyDataSetChanged();
+//        adapter.notifyDataSetChanged();
+//        adapter.setNotifyOnChange(true);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                ImageView trash = (ImageView) view.findViewById(R.id.imageViewDelete);
-                trash.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        ParseQuery<ParseObject> query = ParseQuery.getQuery("BlogObj");
-                        query.whereEqualTo("blog_content", toDoNotes.get(position).getContent());
-                        Log.d("parseDemo", "Content being deleted is " + toDoNotes.get(position).getContent());
-                        query.findInBackground(new FindCallback<ParseObject>() {
-                            public void done(List<ParseObject> invites, ParseException e) {
-                                if (e == null) {
-                                    // iterate over all messages and delete them
-                                    for (ParseObject invite : invites) {
-                                        invite.deleteInBackground();
-                                    }
-
-                                    ParseQuery<ParseObject> noteObj = ParseQuery.getQuery("BlogObj");
-                                    noteObj.addDescendingOrder("createdAt");
-                                    toDoNotes.clear();
-                                    noteObj.findInBackground(new FindCallback<ParseObject>() {
-                                        @Override
-                                        public void done(List<ParseObject> objects, ParseException e) {
-                                            if (e == null) {
-                                                Log.d("rt",objects.size()+", "+username);
-                                                if (objects.size() > 0) {
-                                                    for (ParseObject p : objects) {
-                                                        Post currentPost = new Post();
-                                                        currentPost.setContent(p.getString("blog_content"));
-                                                        Log.d("parseDemo", "About to get date");
-                                                        currentPost.setDate(p.getCreatedAt());
-                                                        Log.d("parseDemo", "Date is " + p.getCreatedAt());
-                                                        currentPost.setFirstLast(p.getString("name_key"));
-                                                        currentPost.setUserName(p.getString("user_key"));
-                                                        toDoNotes.add(currentPost);
-
-                                                    }
-                                                    displayNotes(toDoNotes);
-                                                } else {
-                                                    Toast.makeText(ToDoList.this, "Empty List", Toast.LENGTH_SHORT).show();
-                                                }
-
-                                            } else {
-
-                                            }
-                                        }
-                                    });
-
-                                } else { //Handle condition here
-
-                                }
-                            }
-                        });
-
-                    }
-                });
-            }
-        });
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+//                ImageView trash = (ImageView) view.findViewById(R.id.imageViewDelete);
+//                trash.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//
+//                        ParseQuery<ParseObject> query = ParseQuery.getQuery("BlogObj");
+//                        query.whereEqualTo("blog_content", toDoNotes.get(position).getContent());
+//                        Log.d("parseDemo", "Content being deleted is " + toDoNotes.get(position).getContent());
+//                        query.findInBackground(new FindCallback<ParseObject>() {
+//                            public void done(List<ParseObject> invites, ParseException e) {
+//                                if (e == null) {
+//                                    // iterate over all messages and delete them
+//                                    for (ParseObject invite : invites) {
+//                                        invite.deleteInBackground();
+//                                    }
+//
+//                                    ParseQuery<ParseObject> noteObj = ParseQuery.getQuery("BlogObj");
+//                                    noteObj.addDescendingOrder("createdAt");
+//                                    toDoNotes.clear();
+//                                    noteObj.findInBackground(new FindCallback<ParseObject>() {
+//                                        @Override
+//                                        public void done(List<ParseObject> objects, ParseException e) {
+//                                            if (e == null) {
+//                                                Log.d("rt",objects.size()+", "+username);
+//                                                if (objects.size() > 0) {
+//                                                    for (ParseObject p : objects) {
+//                                                        Post currentPost = new Post();
+//                                                        currentPost.setContent(p.getString("blog_content"));
+//                                                        Log.d("parseDemo", "About to get date");
+//                                                        currentPost.setDate(p.getCreatedAt());
+//                                                        Log.d("parseDemo", "Date is " + p.getCreatedAt());
+//                                                        currentPost.setFirstLast(p.getString("name_key"));
+//                                                        currentPost.setUserName(p.getString("user_key"));
+//                                                        toDoNotes.add(currentPost);
+//
+//                                                    }
+//                                                    displayNotes(toDoNotes);
+//                                                } else {
+//                                                    Toast.makeText(ToDoList.this, "Empty List", Toast.LENGTH_SHORT).show();
+//                                                }
+//
+//                                            } else {
+//
+//                                            }
+//                                        }
+//                                    });
+//
+//                                } else { //Handle condition here
+//
+//                                }
+//                            }
+//                        });
+//
+//                    }
+//                });
+//            }
+//        });
     }
 }
