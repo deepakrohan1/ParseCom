@@ -24,6 +24,7 @@ public class SignUp extends AppCompatActivity {
     EditText editTextName, editTextEmail, editTextPassword, editTextCPassword;
     Button buttonOk, buttonCancel;
     String username, password, confirmPassword, emailMain;
+    String emailPattern = "[a-zA-Z0-9._-]+@[a-zA-Z]+\\.+[a-zA-Z]+";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +45,10 @@ public class SignUp extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                username = editTextName.getText().toString();
-                password = editTextPassword.getText().toString();
-                confirmPassword = editTextCPassword.getText().toString();
-                emailMain = editTextEmail.getText().toString();
+                username = editTextName.getText().toString().trim();
+                password = editTextPassword.getText().toString().trim();
+                confirmPassword = editTextCPassword.getText().toString().trim();
+                emailMain = editTextEmail.getText().toString().trim();
 
                 ParseQuery<ParseUser> user1 = ParseUser.getQuery();
                 user1.whereEqualTo("username", emailMain);
@@ -63,9 +64,11 @@ public class SignUp extends AppCompatActivity {
                             Log.d("as", username + " , " + password + " , " + emailMain + " , " + confirmPassword);
                             if (username.equals("") || password.equals("") || emailMain.equals("")) {
                                 Toast.makeText(SignUp.this, "Enter a valid Details", Toast.LENGTH_SHORT).show();
-                            } else if (!confirmPassword.equals(password)) {
+                            } else if(!emailMain.matches(emailPattern)){
+                                Toast.makeText(SignUp.this, "Enter a Valid Email", Toast.LENGTH_SHORT).show();
+                            }else if (!confirmPassword.equals(password)) {
                                 Toast.makeText(SignUp.this, "Both Passwords aren't same", Toast.LENGTH_SHORT).show();
-                            } else {
+                            }else {
                                 ParseUser user = new ParseUser();
                                 user.setUsername(emailMain);
                                 user.setPassword(password);
