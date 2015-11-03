@@ -19,6 +19,7 @@ public class ToDoMain extends AppCompatActivity {
     EditText editTextUsername, editTextPassword;
     Button buttonLogin, buttonSignup;
     public final String USER_NAME = "username";
+    public static final int SIGNUP = 1212;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +61,7 @@ public class ToDoMain extends AppCompatActivity {
             Log.d("As", "Current Usr " + currentUser.getUsername());
             Intent i = new Intent(ToDoMain.this, ToDoList.class);
 //            i.putExtra(USER_NAME, currentUser.getUsername());
+            finish();
             startActivity(i);
 
         }
@@ -67,13 +69,19 @@ public class ToDoMain extends AppCompatActivity {
         buttonSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("asp","Getting control back");
                 Intent i = new Intent(ToDoMain.this,SignUp.class);
-                finish();
-                startActivity(i);
+//                finish();
+                startActivityForResult(i,SIGNUP);
             }
         });
 
+
+
+
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -105,6 +113,15 @@ public class ToDoMain extends AppCompatActivity {
         } else {
             Log.d("as", "User creds: " + editTextPassword.getText().toString() + " , " + editTextUsername.getText().toString());
             return true;
+        }
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == SIGNUP) {
+            if (resultCode == RESULT_OK) {
+                  ParseUser.logOut();
+                Log.d("Signout", "Need to Logout");
+            }
         }
     }
 }

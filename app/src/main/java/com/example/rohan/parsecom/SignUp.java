@@ -25,6 +25,7 @@ public class SignUp extends AppCompatActivity {
     Button buttonOk, buttonCancel;
     String username, password, confirmPassword, emailMain;
     String emailPattern = "[a-zA-Z0-9._-]+@[a-zA-Z]+\\.+[a-zA-Z]+";
+    public static final int ACTIVITY_LOGIN = 123;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,10 +80,11 @@ public class SignUp extends AppCompatActivity {
                                         if (e == null) {
                                             Log.d("as", "Successful");
 //                                            finish();
-                                            Toast.makeText(SignUp.this,"User Created Successfully",Toast.LENGTH_SHORT).show();
+//                                            Toast.makeText(SignUp.this,"User Created Successfully",Toast.LENGTH_SHORT).show();
                                             Intent i = new Intent(SignUp.this, ToDoMain.class);
+                                            setResult(RESULT_OK, i);
                                             finish();
-                                            startActivity(i);
+//                                            startActivityForResult(i,ACTIVITY_LOGIN);
                                         } else {
                                             Log.d("as", "Failed");
                                         }
@@ -104,6 +106,8 @@ public class SignUp extends AppCompatActivity {
 
 
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
