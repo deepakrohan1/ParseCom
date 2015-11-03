@@ -91,39 +91,39 @@ public class ToDoList extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        ParseQuery<ParseObject> noteObj2 = ParseQuery.getQuery("BlogObj");
-        noteObj2.addDescendingOrder("createdAt");
-        toDoNotes.clear();
-        noteObj2.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> objects, ParseException e) {
-                if (e == null) {
-                    Log.d("rt", objects.size() + ", " + username);
-                    if (objects.size() > 0) {
-                        for (ParseObject p : objects) {
-                            Post currentPost = new Post();
-                            currentPost.setContent(p.getString("blog_content"));
-                            Log.d("parseDemo", "About to get date");
-                            currentPost.setDate(p.getCreatedAt());
-                            Log.d("parseDemo", "Date is " + p.getCreatedAt());
-                            currentPost.setFirstLast(p.getString("name_key"));
-                            currentPost.setUserName(p.getString("user_key"));
-                            toDoNotes.add(currentPost);
-                        }
-                        displayNotes(toDoNotes);
-                    } else {
-                        Toast.makeText(ToDoList.this, "Empty List", Toast.LENGTH_SHORT).show();
-                    }
-
-                } else {
-
-                }
-            }
-        });
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        ParseQuery<ParseObject> noteObj2 = ParseQuery.getQuery("BlogObj");
+//        noteObj2.addDescendingOrder("createdAt");
+//        toDoNotes.clear();
+//        noteObj2.findInBackground(new FindCallback<ParseObject>() {
+//            @Override
+//            public void done(List<ParseObject> objects, ParseException e) {
+//                if (e == null) {
+//                    Log.d("rt", objects.size() + ", " + username);
+//                    if (objects.size() > 0) {
+//                        for (ParseObject p : objects) {
+//                            Post currentPost = new Post();
+//                            currentPost.setContent(p.getString("blog_content"));
+//                            Log.d("parseDemo", "About to get date");
+//                            currentPost.setDate(p.getCreatedAt());
+//                            Log.d("parseDemo", "Date is " + p.getCreatedAt());
+//                            currentPost.setFirstLast(p.getString("name_key"));
+//                            currentPost.setUserName(p.getString("user_key"));
+//                            toDoNotes.add(currentPost);
+//                        }
+//                        displayNotes(toDoNotes);
+//                    } else {
+//                        Toast.makeText(ToDoList.this, "Empty List", Toast.LENGTH_SHORT).show();
+//                    }
+//
+//                } else {
+//
+//                }
+//            }
+//        });
+//    }
 
 
 
@@ -138,8 +138,6 @@ public class ToDoList extends AppCompatActivity {
             case R.id.action_compose:
                 Intent i = new Intent(ToDoList.this, Compose.class);
                 startActivity(i);
-
-
                 return true;
             case R.id.action_logout:
                 ParseUser.logOut();
@@ -175,6 +173,7 @@ public class ToDoList extends AppCompatActivity {
                         }
                     }
                 });
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

@@ -1,5 +1,6 @@
 package com.example.rohan.parsecom;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -65,7 +66,10 @@ public class Compose extends AppCompatActivity {
                     parseObject.put(NAME_KEY, userfirstname);
                     parseObject.saveInBackground();
 
-                    finish();
+                    Intent i = new Intent(Compose.this,ToDoList.class);
+                    startActivity(i);
+
+//                    finish();
                 }
             }
         });
