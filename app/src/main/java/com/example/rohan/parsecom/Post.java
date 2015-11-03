@@ -6,8 +6,16 @@ import java.util.Date;
  * Created by Justin on 11/2/2015.
  */
 public class Post {
-    String content, firstLast, userName;
+    String content, firstLast, userName, objectId;
     Date date;
+
+    public String getObjectId() {
+        return objectId;
+    }
+
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
+    }
 
     public void setDate(Date date) {
         this.date = date;
@@ -47,6 +55,7 @@ public class Post {
                 "content='" + content + '\'' +
                 ", firstLast='" + firstLast + '\'' +
                 ", userName='" + userName + '\'' +
+                ", objectId='" + objectId + '\'' +
                 ", date=" + date +
                 '}';
     }

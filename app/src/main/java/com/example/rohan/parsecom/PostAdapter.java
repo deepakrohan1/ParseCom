@@ -78,36 +78,37 @@ public class PostAdapter extends ArrayAdapter<Post> {
             trash.setEnabled(true);
             trash.setImageDrawable(mContext.getResources().getDrawable(R.drawable.trash));
             trash.setTag(position);
-            trash.setOnClickListener(new View.OnClickListener() {
-                                         @Override
-                                         public void onClick(View v) {
-                                             Log.d("Clicked", "Inside OnClic");
-                                             int xy = (int) v.getTag();
-                                             Post blogContent = mObjects.get(xy);
-                                             Log.d("Clicked", "test" + blogContent.toString());
-                                             Toast.makeText(mContext, "Removing the Content", Toast.LENGTH_SHORT).show();
+            trash.setOnClickListener
+                    (new View.OnClickListener() {
+                         @Override
+                         public void onClick(View v) {
+                             Log.d("Clicked", "Inside OnClic");
+                             int xy = (int) v.getTag();
+                             Post blogContent = mObjects.get(xy);
+                             Log.d("Clicked", "test" + blogContent.toString());
+                             Toast.makeText(mContext, "Removing the Content", Toast.LENGTH_SHORT).show();
 
-                                             ParseQuery<ParseObject> query = ParseQuery.getQuery("BlogObj");
-                                             query.whereEqualTo("blog_content", blogContent.getContent());
-                                             Log.d("parseDemo", "Content being deleted is " + blogContent.getContent());
-                                             query.findInBackground(new FindCallback<ParseObject>() {
-                                                 public void done(List<ParseObject> invites, ParseException e) {
-                                                     if (e == null) {
-                                                         // iterate over all messages and delete them
-                                                         for (ParseObject invite : invites) {
-                                                             invite.deleteInBackground();
-                                                         }
-                                                         callMethod();
-
-                                                     }
-                                                 }
-                                             });
-
-
+                             ParseQuery<ParseObject> query = ParseQuery.getQuery("BlogObj");
+                             query.whereEqualTo("objectId", blogContent.getObjectId());
+                             Log.d("parseDemo", "Content being deleted is " + blogContent.getContent());
+                             query.findInBackground(new FindCallback<ParseObject>() {
+                                 public void done(List<ParseObject> invites, ParseException e) {
+                                     if (e == null) {
+                                         // iterate over all messages and delete them
+                                         for (ParseObject invite : invites) {
+                                             invite.deleteInBackground();
                                          }
-                                     }
+                                         callMethod();
 
-            );
+                                     }
+                                 }
+                             });
+
+
+                         }
+                     }
+
+                    );
 
             //trash.setId(position);
         } else {
@@ -120,7 +121,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
         return convertView;
     }
 
-    public void callMethod(){
+    public void callMethod() {
         ParseQuery<ParseObject> noteObj = ParseQuery.getQuery("BlogObj");
         noteObj.addDescendingOrder("createdAt");
 //        toDoNotes.clear();
@@ -134,6 +135,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
                             currentPost.setContent(p.getString("blog_content"));
                             Log.d("parseDemo", "About to get date");
                             currentPost.setDate(p.getCreatedAt());
+                            currentPost.setObjectId(p.getObjectId());
                             Log.d("parseDemo", "Date is " + p.getCreatedAt());
                             currentPost.setFirstLast(p.getString("name_key"));
                             currentPost.setUserName(p.getString("user_key"));
