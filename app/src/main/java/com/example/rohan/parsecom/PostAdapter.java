@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 
@@ -52,7 +53,8 @@ public class PostAdapter extends ArrayAdapter<Post> {
         textViewContent.setText(p.getContent());
 
         TextView textViewDate = (TextView) convertView.findViewById(R.id.textViewDate);
-        textViewDate.setText(p.getDate().toString());
+        String date = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(p.getDate());
+        textViewDate.setText(date);
 
 
         Log.d("parseDemo", "thisUSer = " + thisUser);
