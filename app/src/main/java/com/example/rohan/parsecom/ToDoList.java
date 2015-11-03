@@ -42,10 +42,7 @@ public class ToDoList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_to_do_list);
         listView = (ListView)findViewById(R.id.listView);
-//        if(getIntent().getExtras() != null){
-//            username = getIntent().getExtras().toString();
-//            Log.d("as","The user to write TODO: ");
-//        }
+
         ParseUser currentUser = ParseUser.getCurrentUser();
         if(currentUser != null){
             username =currentUser.getUsername();
@@ -81,6 +78,8 @@ public class ToDoList extends AppCompatActivity {
                     }
                 }
             });
+        }else if(currentUser == null){
+            finish();
         }
     }
 
@@ -141,7 +140,9 @@ public class ToDoList extends AppCompatActivity {
                 return true;
             case R.id.action_logout:
                 ParseUser.logOut();
+                Intent j = new Intent(ToDoList.this, ToDoMain.class);
                 finish();
+                startActivity(j);
                 return true;
             case R.id.action_refresh:
                 ParseQuery<ParseObject> noteObj = ParseQuery.getQuery("BlogObj");

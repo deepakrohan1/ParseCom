@@ -67,6 +67,7 @@ public class Compose extends AppCompatActivity {
                     parseObject.saveInBackground();
 
                     Intent i = new Intent(Compose.this,ToDoList.class);
+                    finish();
                     startActivity(i);
 
 //                    finish();

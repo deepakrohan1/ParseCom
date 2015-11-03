@@ -75,8 +75,10 @@ public class SignUp extends AppCompatActivity {
                                     public void done(ParseException e) {
                                         if (e == null) {
                                             Log.d("as", "Successful");
+//                                            finish();
                                             Toast.makeText(SignUp.this,"User Created Successfully",Toast.LENGTH_SHORT).show();
                                             Intent i = new Intent(SignUp.this, ToDoMain.class);
+                                            finish();
                                             startActivity(i);
                                         } else {
                                             Log.d("as", "Failed");
